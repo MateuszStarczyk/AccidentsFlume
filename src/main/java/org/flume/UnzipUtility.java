@@ -33,11 +33,12 @@ public class UnzipUtility {
         if (!destDir.exists()) {
             destDir.mkdir();
         }
+        String zipName = new File(zipFilePath).getName().replace(".zip", "");
         ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
         ZipEntry entry = zipIn.getNextEntry();
 // iterates over entries in the zip file
         while (entry != null) {
-            String filePath = destDirectory + File.separator + entry.getName();
+            String filePath = destDirectory + File.separator + zipName + "-" + entry.getName();
             if (!entry.isDirectory()) {
 // if the entry is a file, extracts it
                 extractFile(zipIn, filePath);
