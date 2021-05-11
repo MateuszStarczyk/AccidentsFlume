@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class HDFSFilesManager {
 
-    private static final String HDFS_LOCAL_DIRECTORY = "hdfs" + File.separator;
+    private static final String HDFS_LOCAL_DIRECTORY = "data" + File.separator;
     private static final String HDFS_URL = "hdfs://quickstart.cloudera:8020/user/cloudera/data";
 
     private final String downloadDirectoryPath;
@@ -23,6 +23,7 @@ public class HDFSFilesManager {
 
     public HDFSFilesManager(String downloadDirectoryPath) {
         this.downloadDirectoryPath = downloadDirectoryPath;
+        createDataDir();
         try {
             Configuration conf = new Configuration();
             conf.addResource(new Path("/etc/hadoop/conf/core-site.xml"));
@@ -51,6 +52,7 @@ public class HDFSFilesManager {
                 System.out.println("Getting file " + fileStatus.getPath() + " finished successfully!");
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -91,5 +93,13 @@ public class HDFSFilesManager {
             }
             return newDataAvailable;
         } else return hdfsFiles == null;
+    }
+
+    private void createDataDir() {
+        File file = new File("data");
+        if (!file.exists())
+            if (!file.mkdir()) {
+                throw new RuntimeException("Couldn't create download directory");
+            }
     }
 }
