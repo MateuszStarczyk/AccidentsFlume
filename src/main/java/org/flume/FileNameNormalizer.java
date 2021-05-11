@@ -12,8 +12,10 @@ public class FileNameNormalizer {
 
     public void normalizeAllFileNames() {
         File downloadDirectory = new File(downloadDirectoryPath);
-        for (File file : downloadDirectory.listFiles()) {
-            normalizeFileName(file);
+        for (File file : downloadDirectory.listFiles(((dir, name) -> name.toLowerCase().endsWith(".csv")))) {
+            if (file.exists()) {
+                normalizeFileName(file);
+            }
         }
     }
 
@@ -21,7 +23,7 @@ public class FileNameNormalizer {
         System.out.println("Normalizing filename " + file.getName() + "...");
 
         String newFilePath = file.getPath().replace(file.getName(), getNewFileName(file.getName()));
-        if(file.renameTo(new File(newFilePath))) {
+        if (file.renameTo(new File(newFilePath))) {
             System.out.println("Normalizing filename " + file.getName() + " finished successfully!");
         } else {
             System.out.println("Normalizing filename " + file.getName() + " failed!");

@@ -38,7 +38,7 @@ public class FileChecker {
 
     public void checkFiles() {
         File downloadDirectory = new File(downloadDirectoryPath);
-        for (File file : downloadDirectory.listFiles()) {
+        for (File file : downloadDirectory.listFiles((dir, name) -> name.contains("-") && name.toLowerCase().endsWith(".csv"))) {
             String fileType = file.getName().split("-")[0];
             try {
                 switch (fileType) {

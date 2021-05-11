@@ -13,6 +13,7 @@ public class FileDownloader {
     private static final String DOWNLOAD_DIRECTORY = "download" + File.separator;
 
     private static final String[] DATA = {
+            "https://cdn-117.anonfiles.com/n8w9Afv8u8/cfefd885-1620744961/Stats19_Data_2005-2014.zip",
             "http://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_Vehicles_2015.zip",
             "http://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_Accidents_2015.zip",
             "http://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_Casualties_2015.zip",
@@ -32,7 +33,7 @@ public class FileDownloader {
 
     public void downloadAllFiles() {
         createDownloadDir();
-        for(String link : DATA) {
+        for (String link : DATA) {
             downloadFile(link);
         }
     }
@@ -54,6 +55,7 @@ public class FileDownloader {
             System.out.println("Downloading file " + filename + " finished successfully!");
 
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException("Downloading file " + filename + " failed!");
         }
     }
@@ -69,8 +71,10 @@ public class FileDownloader {
 
     private void createDownloadDir() {
         File file = new File("download");
-        if(!file.exists())
-            file.mkdir();
+        if (!file.exists())
+            if (!file.mkdir()) {
+                throw new RuntimeException("Couldn't create download directory");
+            }
     }
 
     public static void main(String[] args) {

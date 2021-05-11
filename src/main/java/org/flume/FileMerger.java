@@ -25,37 +25,37 @@ public class FileMerger {
     private void mergeAccidentsFiles() throws IOException {
         File downloadDirectory = new File(downloadDirectoryPath);
         List<File> accidentsFiles = new ArrayList<>();
-        for (File file : downloadDirectory.listFiles()) {
+        for (File file : downloadDirectory.listFiles((dir, name) -> name.contains("-") && name.toLowerCase().endsWith(".csv"))) {
             String fileType = file.getName().split("-")[0];
             if(fileType.equals("accidents")) {
                 accidentsFiles.add(file);
             }
         }
-        mergeFiles(accidentsFiles, downloadDirectoryPath + File.separator + "accidents-full.csv", FileChecker.getAccidentsColumns());
+        mergeFiles(accidentsFiles, downloadDirectoryPath + "accidents-full.csv", FileChecker.getAccidentsColumns());
     }
 
     private void mergeCasualtiesFiles() throws IOException {
         File downloadDirectory = new File(downloadDirectoryPath);
         List<File> casualtiesFiles = new ArrayList<>();
-        for (File file : downloadDirectory.listFiles()) {
+        for (File file : downloadDirectory.listFiles((dir, name) -> name.contains("-") && name.toLowerCase().endsWith(".csv"))) {
             String fileType = file.getName().split("-")[0];
             if(fileType.equals("casualties")) {
                 casualtiesFiles.add(file);
             }
         }
-        mergeFiles(casualtiesFiles, downloadDirectoryPath + File.separator + "casualties-full.csv", FileChecker.getCasualtiesColumns());
+        mergeFiles(casualtiesFiles, downloadDirectoryPath + "casualties-full.csv", FileChecker.getCasualtiesColumns());
     }
 
     private void mergeVehiclesFiles() throws IOException {
         File downloadDirectory = new File(downloadDirectoryPath);
         List<File> vehiclesFiles = new ArrayList<>();
-        for (File file : downloadDirectory.listFiles()) {
+        for (File file : downloadDirectory.listFiles((dir, name) -> name.contains("-") && name.toLowerCase().endsWith(".csv"))) {
             String fileType = file.getName().split("-")[0];
             if(fileType.equals("vehicles")) {
                 vehiclesFiles.add(file);
             }
         }
-        mergeFiles(vehiclesFiles, downloadDirectoryPath + File.separator + "vehicles-full.csv", FileChecker.getVehiclesColumns());
+        mergeFiles(vehiclesFiles, downloadDirectoryPath + "vehicles-full.csv", FileChecker.getVehiclesColumns());
     }
 
     private void mergeFiles(List<File> files, String newFileName, String[] headers) throws IOException {

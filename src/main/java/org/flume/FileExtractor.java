@@ -1,7 +1,10 @@
 package org.flume;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Objects;
 
 public class FileExtractor {
 
@@ -15,7 +18,7 @@ public class FileExtractor {
 
     public void extractAllFiles() {
         File downloadDirectory = new File(downloadDirectoryPath);
-        for (File file : downloadDirectory.listFiles()) {
+        for (File file : downloadDirectory.listFiles((dir, name) -> name.toLowerCase().endsWith(".zip"))) {
             unzipIfNecessary(file);
         }
     }
