@@ -15,9 +15,10 @@ public class Main {
         fileNameNormalizer.normalizeAllFileNames();
         fileChecker.checkFiles();
         fileMerger.mergeAllFiles();
-        hdfsFilesManager.getFiles();
         if (hdfsFilesManager.newDataAvailable()) {
             hdfsFilesManager.saveFiles();
+        } else {
+            System.out.println("Files have not changed.");
         }
     }
 

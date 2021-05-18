@@ -13,7 +13,6 @@ public class FileDownloader {
     private static final String DOWNLOAD_DIRECTORY = "download" + File.separator;
 
     private static final String[] DATA = {
-            "https://cdn-117.anonfiles.com/n8w9Afv8u8/cfefd885-1620744961/Stats19_Data_2005-2014.zip",
             "http://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_Vehicles_2015.zip",
             "http://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_Accidents_2015.zip",
             "http://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_Casualties_2015.zip",

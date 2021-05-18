@@ -79,20 +79,24 @@ public class HDFSFilesManager {
     public boolean newDataAvailable() {
         boolean newDataAvailable = false;
         File downloadDirectory = new File(downloadDirectoryPath);
-        File hdfsDirectory = new File(HDFS_LOCAL_DIRECTORY);
         File[] downloadedFiles = downloadDirectory.listFiles();
-        File[] hdfsFiles = hdfsDirectory.listFiles();
-        if (downloadedFiles != null && hdfsFiles != null) {
+        FileStatus[] hdfsFiles = new FileStatus[0];
+        try {
+            hdfsFiles = fs.listStatus(new Path(HDFS_URL));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (downloadedFiles != null && hdfsFiles != null && downloadedFiles.length > 0 && hdfsFiles.length > 0) {
             for (File downloadedFile : downloadedFiles) {
                 if (!newDataAvailable && downloadedFile.getName().contains("-full.csv")) {
-                    Optional<File> hdfsFile = Arrays.stream(hdfsFiles).findFirst().filter(f -> f.getName().equals(downloadedFile.getName()));
-                    if (hdfsFile.isPresent() && hdfsFile.get().length() > downloadedFile.length()) {
+                    Optional<FileStatus> hdfsFile = Arrays.stream(hdfsFiles).filter(f -> f.getPath().getName().equals(downloadedFile.getName())).findFirst();
+                    if (!hdfsFile.isPresent() || hdfsFile.get().getLen() < downloadedFile.length()) {
                         newDataAvailable = true;
                     }
                 }
             }
             return newDataAvailable;
-        } else return hdfsFiles == null;
+        } else return hdfsFiles == null || hdfsFiles.length == 0;
     }
 
     private void createDataDir() {
