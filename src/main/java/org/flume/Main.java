@@ -9,6 +9,7 @@ public class Main {
         FileChecker fileChecker = new FileChecker(fileDownloader.getDownloadDirectoryPath());
         FileMerger fileMerger = new FileMerger(fileDownloader.getDownloadDirectoryPath());
         HDFSFilesManager hdfsFilesManager = new HDFSFilesManager(fileDownloader.getDownloadDirectoryPath());
+        FileCleaner fileCleaner = new FileCleaner(fileDownloader.getDownloadDirectoryPath());
 
         fileDownloader.downloadAllFiles();
         fileExtractor.extractAllFiles();
@@ -20,6 +21,7 @@ public class Main {
         } else {
             System.out.println("Files have not changed.");
         }
+        fileCleaner.deleteAllFiles();
     }
 
 }
